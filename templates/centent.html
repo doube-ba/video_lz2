@@ -1,0 +1,51 @@
+{% extends 'layout.html' %}
+    {% block content %}
+    <div class="layui-fluid">
+        <div class="layui-row">
+            <div id="content_1">
+                <div class="layui-panel layui-hide-sm layui-hide-md" style="margin: 5px 0">
+                <div class="layui-row layui-col-space5">
+                    <div class="layui-col-md3 layui-col-xs3">
+                        <button type="button" class="layui-btn layui-btn-fluid" id="q11" onclick="btn_sid(this)">电影</button>
+                    </div>
+                    <div class="layui-col-md3 layui-col-xs3">
+                        <button type="button" class="layui-btn layui-btn-fluid" id="q22" onclick="btn_sid(this)">电视剧</button>
+                    </div>
+                    <div class="layui-col-md3 layui-col-xs3">
+                        <button type="button" class="layui-btn layui-btn-fluid" id="q33" onclick="btn_sid(this)">动漫</button>
+                    </div>
+                    <div class="layui-col-md3 layui-col-xs3">
+                        <button type="button" class="layui-btn layui-btn-fluid" id="q44" onclick="btn_sid(this)">综艺</button>
+                    </div>
+                </div>
+            </div>
+                <div class="layui-panel" style="color: #0048ff;">
+                <div style="padding: 32px;">
+                    <div class="layui-col-md3 layui-col-xs5">
+                        <div class="grid-demo">影片名称</div>
+                    </div>
+                    <div class="layui-col-md2 layui-col-xs4">
+                        <div class="grid-demo">影片集数</div>
+                    </div>
+                    <div class="layui-col-md1 layui-hide-xs">
+                        <div class="grid-demo">影片地区</div>
+                    </div>
+                    <div class="layui-col-md2 layui-col-xs3">
+                        <div class="grid-demo">影片类别</div>
+                    </div>
+                    <div class="layui-col-md2 layui-hide-xs">
+                        <div class="grid-demo">豆瓣评分</div>
+                    </div>
+                    <div class="layui-col-md2 layui-hide-xs">
+                        <div class="grid-demo">更新时间</div>
+                    </div>
+                </div>
+            </div>
+                <div id="view1"></div>
+            </div>
+        </div>
+    </div>
+    {% endblock content %}
+    {% block bottom %}
+    <div id="demo-laypage-normal-2"></div>
+    {% endblock bottom %}

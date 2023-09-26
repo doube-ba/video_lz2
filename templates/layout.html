@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>沐辰影视</title>
+    <link href="https://cdn.staticfile.org/layui/2.8.0/css/layui.css" rel="stylesheet">
+    <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/layui/2.8.0/layui.js"></script>
+    <link rel="shortcut icon" href="{{ url_for('static',filename='favicon.ico') }}"/>
+    <link rel="stylesheet" href="https://g.alicdn.com/apsara-media-box/imp-web-player/2.16.3/skins/default/aliplayer-min.css" />
+    <script type="text/javascript" charset="utf-8" src="https://g.alicdn.com/apsara-media-box/imp-web-player/2.16.3/aliplayer-min.js"></script>
+</head>
+
+<body>
+    <div class="layui-layout layui-layout-admin">
+        <div class="layui-header">
+            <div class="layui-logo layui-bg-black">
+                <div class="layui-hide-xs">
+                   沐辰影视
+                </div>
+                <div class="layui-hide-md layui-hide-sm" style="width: 110px;">
+                    沐辰影视
+                </div>
+            </div>
+            <ul class="layui-nav layui-layout-left layui-hide-xs" lay-filter="demo-filter-nav" lay-bar="disabled">
+                <li class="layui-nav-item sa" ><a href="javascript:;" id="q1" sid="1" onclick="btn_id(this)"><strong>电影</strong></a></li>
+                <li class="layui-nav-item sa" ><a href="javascript:;" id="q2" sid="2" onclick="btn_id(this)"><strong>电视剧</strong></a></li>
+                <li class="layui-nav-item sa" ><a href="javascript:;" id="q3" sid="4" onclick="btn_id(this)"><strong>动漫</strong></a></li>
+                <li class="layui-nav-item sa" ><a href="javascript:;" id="q4" sid="3" onclick="btn_id(this)"><strong>综艺</strong></a></li>
+            </ul>
+            <ul class="layui-nav layui-layout-right">
+                <li class="layui-nav-item" lay-unselect>
+                    <div class="layui-form">
+                        <input type="text" lay-affix="clear" placeholder="搜索..." class="layui-input" id="search_input">
+                    </div>
+                  </li>
+                <li class="layui-nav-item search" lay-unselect lay-on="search">
+                    <!-- <a href="javascript:;">
+                        <i class="layui-icon layui-icon-search"></i>
+                    </a> -->
+                      <a href="javascript:;">
+                        <img src="{{ url_for('static',filename='ss1.png') }}" class="layui-nav-img">
+                      </a>
+                    </li>
+                <li class="layui-nav-item layui-hide-xs" lay-header-event="menuRight" lay-unselect>
+                <a href="javascript:;">
+                  <i class="layui-icon layui-icon-more-vertical"></i>
+                </a>
+                </li>
+                <span class="layui-nav-bar"></span>
+            </ul>
+        </div>
+        <div class="layui-body" style="left: 0px;">
+            {% block content %}
+            {% endblock content %}
+        </div>
+        <div class="layui-footer" style="left: 0px;background-color: #E6E8EB">
+            <!-- 底部固定区域 -->
+            {% block bottom %}
+            {% endblock bottom %}
+          </div>
+    </div>
+
+</body>
+<style>
+    body{
+        background-color: #E6E8EB;
+    }
+    .grid-demo {
+        text-align: center;
+        font-weight:bolder;
+    }
+    .grid-demo i {
+        color: #fff;
+        background: #00adef;
+        border-radius: 5px;
+        padding: 3px 6px;
+        font-size: 8px;
+    }
+    #demo-laypage-normal-2,#demo-laypage-data{
+        text-align: center;
+        line-height: 0px;
+    }
+    #video_div,#player-con{
+        width: 100%;
+        aspect-ratio: 1920/1080;
+        /*background: #333333;*/
+        margin-top: 4px;
+    }
+    .layui-fluid{
+        padding-bottom: 44px;
+        padding-left: 0;
+        padding-right: 0;
+
+    }
+</style>
+<script id="TPL1" type="text/html">
+    <%#  layui.each(d, function(index, item){ %>
+    <div class="layui-panel">
+        <a href="/playvideo?play_name=<%= item.name %>&play_url=<%= item.name_url %>" target="_blank">
+            <div style="padding: 32px;">
+                <div>
+                    <div class="layui-col-md3 layui-col-xs5">
+                        <div class="grid-demo"><%=  item.name %></div>
+                    </div>
+                    <div class="layui-col-md2 layui-col-xs4">
+                        <div class="grid-demo"><i><%=  item.name_ji %></i></div>
+                    </div>
+                    <div class="layui-col-md1 layui-hide-xs">
+                        <div class="grid-demo"><%=  item.name_diqu %></div>
+                    </div>
+                    <div class="layui-col-md2 layui-col-xs3">
+                        <div class="grid-demo"><%= item.name_lei %></div>
+                    </div>
+                    <div class="layui-col-md2 layui-hide-xs">
+                        <div class="grid-demo"><%=  item.name_douban %></div>
+                    </div>
+                    <div class="layui-col-md2 layui-hide-xs">
+                        <div class="grid-demo"><%=  item.name_time %></div>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+    <%#  }); %>
+    <%#  if(d.length === 0){ %>
+    无数据
+    <%#  } %>
+</script>
+
+<script>
+    function btn_sid(e){
+        if(btn_sid_color){
+             $(btn_sid_color).css("background-color","");
+        }
+        $(e).css("background-color","#F56C6C");
+        btn_sid_color = e;
+        let a = $(e).attr('id');
+        switch (a){
+            case 'q11':
+                $('#q1').click();
+                break;
+            case 'q22':
+                $('#q2').click();
+                break;
+            case 'q33':
+                $('#q3').click();
+                break;
+            case 'q44':
+                $('#q4').click();
+                break;
+        }
+        // console.log($(e).attr('id'));
+    }
+    function JiaZai(){
+        var layer = layui.layer;
+        var loadIndex = layer.msg('加载中', {
+            icon: 16,
+            shade: 0.01,
+            time:0
+          });
+        return loadIndex;
+    }
+    //把数据写入html中
+    function Write_data(data){
+        // console.log('数据写入html');
+         var laytpl = layui.laytpl;
+         var getTpl = document.getElementById('TPL1').innerHTML; // 获取模板字符
+         var elemView = document.getElementById('view1'); // 视图对象
+            // 渲染并输出结果
+         laytpl(getTpl,{open:'<%',close: '%>'}).render(data, function(str){
+            elemView.innerHTML = str;
+            });
+    }
+    function btn_id(e){
+        var url = layui.url();
+        var laypage = layui.laypage;
+        if(url.pathname[0] === 'playvideo'){
+            layer.msg('返回主页');
+            return
+        }
+        let loadIndex = JiaZai();
+        // console.log($(e).attr('sid'));
+        data_x = 1;
+        data_y = $(e).attr('sid');
+        data_z = 1;
+        $.get('/datas',{data_x,data_y,data_z},function(e){
+            // console.log(e);
+            Write_data(e[1]);
+            layer.close(loadIndex);
+            laypage.render({
+                elem: 'demo-laypage-normal-2',
+                count: e[0][0] ,// 数据总数
+                limit: e[0][1], //每页总数
+                layout: ['prev', 'page', 'next','count'], // 功能布局
+                jump: function(obj, first){
+                    // console.log(obj.curr); // 得到当前页，以便向服务端请求对应页的数据。
+                    // console.log(obj.limit); // 得到每页显示的条数
+                    // 首次不执行
+                    if(!first){
+                        let loadIndex = JiaZai();
+                        data_z = obj.curr;
+                        // console.log(data_z);
+                        $.get('/datas',{data_x,data_y,data_z},function(e){
+                          Write_data(e[1]);
+                          layer.close(loadIndex);
+                        });
+                    }
+                  }
+            });
+        });
+    }
+    let data_x = 0,data_y = 0,data_z = 0;
+    let btn_sid_color = null;
+	layui.use(function(){
+        var laypage = layui.laypage;
+		var element = layui.element;
+  		var layer = layui.layer;
+        var util = layui.util;
+        var url = layui.url();
+
+		// 导航点击事件
+		element.on('nav(demo-filter-nav)', function(elem){
+			// console.log(elem); // 得到当前点击的元素 jQuery 对象
+			// layer.msg(elem.text());
+            // console.log('被点击');
+		});
+        util.on('lay-on', {
+			search: function(){
+			//   console.log(this); // 当前触发事件的 DOM 对象
+                let a = $('#search_input').val();
+                if(a.length == 0){
+                    layer.msg('请输入搜索内容');
+                }else{
+                    if(url.pathname[0] === 'playvideo'){
+                        layer.msg('返回主页');
+                        return
+                    }
+                    let loadIndex = JiaZai();
+                    // layer.msg(a);
+                    $('.layui-nav-item.layui-this').removeClass('layui-this');
+                    data_x = '0';
+                    data_y = a;
+                    data_z = 1;
+                    $.get('/datas',{data_x,data_y,data_z},function(e){
+                        // console.log(e);
+                        Write_data(e[1]);
+                        layer.close(loadIndex);
+                        laypage.render({
+                            elem: 'demo-laypage-normal-2',
+                            count: e[0][0] ,// 数据总数
+                            limit: e[0][1], //每页总数
+                            layout: ['prev', 'page', 'next','count'], // 功能布局
+                            jump: function(obj, first){
+                                // console.log(obj.curr); // 得到当前页，以便向服务端请求对应页的数据。
+                                // console.log(obj.limit); // 得到每页显示的条数
+                                // 首次不执行
+                                if(!first){
+                                    let loadIndex = JiaZai();
+                                    data_z = obj.curr;
+                                    // console.log(data_z);
+                                    $.get('/datas',{data_x,data_y,data_z},function(e){
+                                      Write_data(e[1]);
+                                      layer.close(loadIndex);
+                                    });
+                                }
+                              }
+                        });
+                    });
+                }
+			}
+		});
+        //搜索框键盘监听事件
+        $("#search_input").keypress(function(e){
+            // layer.msg(e.keyCode);
+            if(e.keyCode == '13'){
+                let a = $('#search_input').val();
+                if(a.length == 0){
+                    layer.msg('请输入搜索内容');
+                }else{
+                    // layer.msg(a);
+                    $('.layui-nav-item.search').click();
+                }
+            }
+        });
+        laypage.render({
+            elem: 'demo-laypage-normal-2',
+            limit:0,
+            count: 0 ,// 数据总数
+            layout: ['prev', 'page', 'next','count'], // 功能布局
+        });
+	});
+</script>
+
+</html>
